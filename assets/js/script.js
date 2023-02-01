@@ -14,21 +14,21 @@ function renderItems(city,data) {
 // function to fetch coordinates from first API
 function fetchCoordinates(search) {
     var fetchURL = `${apiURL}/geo/1.0/direct?q=${search}&limit=5&appid=${openWeatherApiKey}`;
-    fetch(fetchURL)
+    fetch(fetchURL);
     .then(function(response){
-        return response.json()
+        return response.json();
     })
     .then(function(data){
         if (!data[0]){
             // alert incase users enters unacceptable input
-            alert("location not found")
+            alert("location not found");
         } else {
             // this is also where you're gonna want to run a function that adds this search to your search history
-            fetchWeather(data[0]) 
+            fetchWeather(data[0]); 
         }
     })
     .catch(function(error){
-        console.error(error)
+        console.error(error);
     })
 }
 
@@ -37,28 +37,28 @@ function fetchWeather(location) {
     var {lat} = location;
     var {lon} = location;
     var city = location.name;
-    var fetchURL = `${apiURL}/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${openWeatherApiKey}`
-    fetch(fetchURL) 
+    var fetchURL = `${apiURL}/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${openWeatherApiKey}`;
+    fetch(fetchURL); 
     .then(function(response){
-        return response.json()
+        return response.json();
     })
     .then(function(data){
         // here's where you're gonna wanna call another function that renders the information the page
-        renderItems(city, data)
+        renderItems(city, data);
         console.log(data);
     })
     .catch(function(error){
-        console.error(error)
+        console.error(error);
     })
 }
 
 function handleSearch(event) {
     if (!searchInput.value) {
-        return
+        return;
     } 
     event.preventDefault()
     var search = searchInput.value.trim();
     fetchCoordinates(search);
-    searchInput.value = ""
+    searchInput.value = "";
 
 }
