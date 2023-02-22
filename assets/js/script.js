@@ -52,6 +52,7 @@ function fetchWeather(location) {
     })
 }
 
+// function to handle the text that user's put into the search box
 function handleSearch(event) {
     if (!searchInput.value) {
         return;
