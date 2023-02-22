@@ -1,14 +1,37 @@
+//VARIABLES AND DOM ELEMENTS
+//===========================================================================
+
 var openWeatherApiKey = "03b49d06e4d62099ead824504a13a78b";
 var apiURL = "https://api.openweathermap.org";
 var searchHistory = [];
-var searchForm = document.getElementById("search-form");
 var searchInput = document.getElementById("search-input");
-var todayContainer = document.getElementById("today");
-var forecastContainer = document.getElementById("forecast");
-var searchHistoryContainer = document.getElementById("history");
+// var todayContainer = document.getElementById("today");
+// var forecastContainer = document.getElementById("forecast");
+// var searchHistoryContainer = document.getElementById("history");
 
-function renderItems(city,data) {
-    //this is where i'll execute the functions that actually render the info to the page
+
+//EVENT LISTENERS
+//===========================================================================
+
+  //Listener for search button
+  $("#search-button").on("click", function () {
+    handleSearch();
+  });
+
+
+//DECLARING ALL FUNCTIONS
+//===========================================================================
+
+// function to handle the text that user's put into the search box
+function handleSearch(event) {
+    if (!searchInput.value) {
+        return; // if user inputs nothing then exit the function
+    } 
+    event.preventDefault()
+    var search = searchInput.value.trim();
+    fetchCoordinates(search);
+    searchInput.value = ""; // clears the search box
+
 }
 
 // function to fetch coordinates from first API
@@ -32,7 +55,7 @@ function fetchCoordinates(search) {
     })
 }
 
-// function to fecth data based on results from previous function
+// function to fecth data from 2nd API based on results from previous API call
 function fetchWeather(location) {
     var {lat} = location;
     var {lon} = location;
@@ -52,14 +75,9 @@ function fetchWeather(location) {
     })
 }
 
-// function to handle the text that user's put into the search box
-function handleSearch(event) {
-    if (!searchInput.value) {
-        return;
-    } 
-    event.preventDefault()
-    var search = searchInput.value.trim();
-    fetchCoordinates(search);
-    searchInput.value = "";
 
+function renderItems(city,data) {
+    //this is where i'll execute the functions that actually render the info to the page
 }
+
+
