@@ -7,13 +7,13 @@ var searchHistory = [];
 var searchInput = document.getElementById("search-input");
 var todayContainer = document.getElementById("today");
 var forecastContainer = document.getElementById("forecast");
-// var searchHistoryContainer = document.getElementById("history");
+var searchHistoryContainer = document.getElementById("history");
 
 
 //EVENT LISTENERS
 //===========================================================================
 
-  //Listener for search button
+  //Listener for a click on the search button
   $("#search-button").on("click", function () {
     event.preventDefault();
     handleSearch();
@@ -28,6 +28,7 @@ function handleSearch() {
     if (!searchInput.value) {
         return; // if user inputs nothing then exit the function
     } 
+    //clean up the user's input with .trim and call the first API
     var search = searchInput.value.trim();
     fetchCoordinates(search);
     searchInput.value = ""; // clears the search box
@@ -43,12 +44,11 @@ function fetchCoordinates(search) {
         return response.json();
     })
     .then(function(data){
-        console.log(data);
-        if (!data){
+        if (data.cod == 404){
             // alert incase users enters unacceptable input
-            alert("location not found");
+            alert("Oops! That city doesn't seem to exist");
         } else {
-            // this is where i'm gonna run a function that adds this search to your search history
+            // pass data to next function for the second API call
             fetchWeather(data); 
         }
     })
@@ -59,10 +59,8 @@ function fetchCoordinates(search) {
 
 // function to fecth data from 2nd API based on results from previous API call
 function fetchWeather(location) {
-    console.log(location);
     var {lat} = location.coord;
     var {lon} = location.coord;
-    console.log(`The latitude is ${lat}, and the longitude is ${lon}`);
     var city = location.name;
     var fetchURL = `${apiURL}/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${openWeatherApiKey}`;
     fetch(fetchURL) 
@@ -72,7 +70,6 @@ function fetchWeather(location) {
     .then(function(data){
         // here's where i'm gonna call another function that renders the information the page
         renderItems(city, data, location);
-        console.log(data);
     })
     .catch(function(error){
         console.error(error);
@@ -82,7 +79,7 @@ function fetchWeather(location) {
 
 function renderItems(city, data, location) {
     console.log(location);
-    // generateTodaysCard(location);
+    // generateTodayCard(location);
     //this is where i'll execute the functions that actually render the info to the page
     let hourlyWeather = data.list
     console.log(hourlyWeather);
@@ -94,7 +91,7 @@ function renderItems(city, data, location) {
     // generateHistoryButtons();
 }
 
-function generateTodaysCard(){}
+function generateTodayCard(){}
 function generateForecastCard(){}
 function generateHistoryButtons(){
     // check whether theres any  city name history in local storge
