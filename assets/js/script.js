@@ -8,13 +8,13 @@ var forecastContainer = document.getElementById("forecast");
 var searchHistoryContainer = document.getElementById("history");
 
 function renderItems(city,data) {
-    //this is where you'll execute the functions that actually render the info to the page
+    //this is where i'll execute the functions that actually render the info to the page
 }
 
 // function to fetch coordinates from first API
 function fetchCoordinates(search) {
     var fetchURL = `${apiURL}/geo/1.0/direct?q=${search}&limit=5&appid=${openWeatherApiKey}`;
-    fetch(fetchURL);
+    fetch(fetchURL)
     .then(function(response){
         return response.json();
     })
@@ -23,7 +23,7 @@ function fetchCoordinates(search) {
             // alert incase users enters unacceptable input
             alert("location not found");
         } else {
-            // this is also where you're gonna want to run a function that adds this search to your search history
+            // this is where i'm gonna run a function that adds this search to your search history
             fetchWeather(data[0]); 
         }
     })
@@ -38,12 +38,12 @@ function fetchWeather(location) {
     var {lon} = location;
     var city = location.name;
     var fetchURL = `${apiURL}/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${openWeatherApiKey}`;
-    fetch(fetchURL); 
+    fetch(fetchURL) 
     .then(function(response){
         return response.json();
     })
     .then(function(data){
-        // here's where you're gonna wanna call another function that renders the information the page
+        // here's where i'm gonna call another function that renders the information the page
         renderItems(city, data);
         console.log(data);
     })
