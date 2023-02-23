@@ -13,11 +13,29 @@ var searchHistoryContainer = document.getElementById("history");
 //EVENT LISTENERS
 //===========================================================================
 
-  //Listener for a click on the search button
-  $("#search-button").on("click", function () {
+//Listener for a click on the search button
+$("#search-button").on("click", function () {
     event.preventDefault();
     handleSearch();
-  });
+});
+
+//   //listener to clear button
+//   $("#clear-btn").on("click", function () {
+//     console.log("clear");
+//     localStorage.removeItem("Weather search history");
+//     location.reload();
+//   });
+
+//   //listener to the buttons in the search history sidebar
+//   $(document).on("click", ".list-group-item", function () {
+//     inputSwitch = false;
+//     listCity = $(this).text();
+//     showWeather();
+//   });
+
+// listener for page load to display search history
+// $(window).on("load", generateHistoryButtons)
+
 
 
 //DECLARING ALL FUNCTIONS
@@ -77,27 +95,43 @@ function fetchWeather(location) {
 }
 
 
+// function to render all cards and buttons to the page at the same time
 function renderItems(city, data, location) {
-    console.log(location);
-    // generateTodayCard(location);
-    //this is where i'll execute the functions that actually render the info to the page
+    console.log(`This is city`,city);
+    console.log(`This is data`,data);
+    console.log(`This is location`,location);
+    
+    generateTodayCard(location);
+    
+    // loop to iterate through the 3-hourly forecast array and generate a card every 24 hours
     let hourlyWeather = data.list
-    console.log(hourlyWeather);
     for (let i = 0; i < hourlyWeather.length; i+=8) {
-        console.log(i);
-        console.log(hourlyWeather[i]);
-        // call function to generate card for each forecast
+        generateForecastCard();
     };
-    // generateHistoryButtons();
+
+    addToSearchHistory();
 }
 
+// function to render just todays' card
 function generateTodayCard(){}
+
+// function to render just forecast cards
 function generateForecastCard(){}
-function generateHistoryButtons(){
+
+// function to add most recently searched city to the search history
+function addToSearchHistory(){
     // check whether theres any  city name history in local storge
-    // if not create a city names array, 
-    // if yes push current city name to  existing array
-    // then, generate buttons with a for loop on the history array 
+    // if not, create a city names array, 
+    // if yes, push current city name to existing LS array
+    // then, call the generateHistoryButtons function to append new city to view
+}
+
+// function to render just history buttons
+function generateHistoryButtons(){
+    // check if anything is in  local storage and populate screen
+    // if no, return
+    // if yes, run a for loop on the history array from LS
+    // append a card for each city
 }
 
 
